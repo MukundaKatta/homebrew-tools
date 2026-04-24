@@ -18,6 +18,7 @@ brew tap mukundakatta/tools
 | `claude-commands-check` | Lint Claude Code slash-command files in `.claude/commands/`. |
 | `llm-usage-report` | Parse LLM API response logs (Anthropic, OpenAI, Google) and generate token + cost reports. |
 | `ai-eval-forge` | Zero-dependency eval harness for LLM and agent regression testing. Scores outputs with exact, contains, regex, token-F1, JSON, and citation checks. |
+| `agent-run-diff` | Compare baseline vs current agent runs; surface regressions as structured reasons across 7 signals (success loss, new errors, tool failures, output drift, step/latency/cost bloat). |
 
 ## Install one (or more)
 
