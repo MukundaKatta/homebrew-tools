@@ -17,6 +17,7 @@ brew tap mukundakatta/tools
 | `claude-hooks-check` | Lint the `hooks` block of a Claude Code `settings.json` (typos, dangerous commands, leaked secrets). |
 | `claude-commands-check` | Lint Claude Code slash-command files in `.claude/commands/`. |
 | `llm-usage-report` | Parse LLM API response logs (Anthropic, OpenAI, Google) and generate token + cost reports. |
+| `ai-eval-forge` | Zero-dependency eval harness for LLM and agent regression testing. Scores outputs with exact, contains, regex, token-F1, JSON, and citation checks. |
 
 ## Install one (or more)
 
