@@ -3,8 +3,8 @@ class AiEvalForge < Formula
 
   desc "Zero-dependency eval harness for LLM and agent regression testing"
   homepage "https://github.com/MukundaKatta/ai-eval-forge"
-  url "https://files.pythonhosted.org/packages/0c/92/38f393fcadd01b3d1610fdedd31b22b6eb11d35f8392228d3e3d05dc142b/ai_eval_forge-0.1.0.tar.gz"
-  sha256 "ce4fa62d0f19f8f47e9613f1d97f0330a3dc9ec7b9ddaf078a32f7463d4182d6"
+  url "https://files.pythonhosted.org/packages/7e/a8/90b9f5e6302fef023647f0b1bfa8394fa9e7177a118904dbbf3f73bb08d0/ai_eval_forge-0.2.0.tar.gz"
+  sha256 "04d44e6bc424e632a0f8e4b5ad32db4d37bd64ac7ffa24f4312de433406ebe1e"
   license "MIT"
 
   depends_on "python@3.12"
