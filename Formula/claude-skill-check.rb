@@ -7,6 +7,7 @@ class ClaudeSkillCheck < Formula
   sha256 "87452792787c8cec86260e64b1657dd1c2a2ca290cc460b6509364d77595ab1f"
   license "MIT"
 
+  depends_on "libyaml"
   depends_on "python@3.12"
 
   resource "pyyaml" do

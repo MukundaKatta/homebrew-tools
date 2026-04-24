@@ -7,6 +7,7 @@ class ClaudeCommandsCheck < Formula
   sha256 "2b7b67a73aaf9b1ff5ff9940a1607d6ed79eb585d97852ac0950a7c005d44dae"
   license "MIT"
 
+  depends_on "libyaml"
   depends_on "python@3.12"
 
   resource "pyyaml" do
