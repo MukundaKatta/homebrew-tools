@@ -16,6 +16,7 @@ brew tap mukundakatta/tools
 | `mcp-config-check` | Lint MCP (Model Context Protocol) config files for Claude Desktop, Cursor, Cline, Windsurf, Zed. |
 | `claude-hooks-check` | Lint the `hooks` block of a Claude Code `settings.json` (typos, dangerous commands, leaked secrets). |
 | `claude-commands-check` | Lint Claude Code slash-command files in `.claude/commands/`. |
+| `llm-usage-report` | Parse LLM API response logs (Anthropic, OpenAI, Google) and generate token + cost reports. |
 
 ## Install one (or more)
 
