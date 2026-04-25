@@ -19,6 +19,8 @@ brew tap mukundakatta/tools
 | `llm-usage-report` | Parse LLM API response logs (Anthropic, OpenAI, Google) and generate token + cost reports. |
 | `ai-eval-forge` | Zero-dependency eval harness for LLM and agent regression testing. Scores outputs with exact, contains, regex, token-F1, JSON, and citation checks. |
 | `agent-run-diff` | Compare baseline vs current agent runs; surface regressions as structured reasons across 7 signals (success loss, new errors, tool failures, output drift, step/latency/cost bloat). |
+| `streamparse` | Streaming JSON parser CLI. `parse`, `extract`, `validate` subcommands for partial / messy / truncated JSON from LLM streams. |
+| `streamparse-mcp` | MCP server exposing streamparse to Claude Desktop, Cursor, Cline, Windsurf, and Zed. Lets the assistant parse partial JSON on demand. |
 
 ## Install one (or more)
 
@@ -50,12 +52,22 @@ Exit status is `0` on no errors and `1` on any errors, so the CLIs compose clean
 
 ## Source and upstream releases
 
-Each formula pulls its sdist from PyPI. The upstream repos are:
+Python formulae pull their sdist from PyPI. Node-based formulae pull tarballs from npm.
+
+**Python (PyPI)**
 
 - [claude-skill-check](https://github.com/MukundaKatta/claude-skill-check) — also on [PyPI](https://pypi.org/project/claude-skill-check/)
 - [mcp-config-check](https://github.com/MukundaKatta/mcp-config-check) — also on [PyPI](https://pypi.org/project/mcp-config-check/)
 - [claude-hooks-check](https://github.com/MukundaKatta/claude-hooks-check) — also on [PyPI](https://pypi.org/project/claude-hooks-check/)
 - [claude-commands-check](https://github.com/MukundaKatta/claude-commands-check) — also on [PyPI](https://pypi.org/project/claude-commands-check/)
+- [llm-usage-report](https://github.com/MukundaKatta/llm-usage-report) — also on [PyPI](https://pypi.org/project/llm-usage-report/)
+- [ai-eval-forge](https://github.com/MukundaKatta/ai-eval-forge) — also on [PyPI](https://pypi.org/project/ai-eval-forge/)
+- [agent-run-diff](https://github.com/MukundaKatta/agent-run-diff) — also on [PyPI](https://pypi.org/project/agent-run-diff/)
+
+**Node (npm)**
+
+- [streamparse](https://github.com/MukundaKatta/streamparse) — also on [npm](https://www.npmjs.com/package/@mukundakatta/streamparse)
+- [streamparse-mcp](https://github.com/MukundaKatta/streamparse-mcp) — also on [npm](https://www.npmjs.com/package/@mukundakatta/streamparse-mcp)
 
 ## Updating
 
