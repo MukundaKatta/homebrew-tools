@@ -2,8 +2,7 @@ class StreamparseMcp < Formula
   desc "MCP server: parse partial / messy / truncated JSON for AI assistants"
   homepage "https://github.com/MukundaKatta/streamparse-mcp"
   url "https://registry.npmjs.org/@mukundakatta/streamparse-mcp/-/streamparse-mcp-1.0.0.tgz"
-  # Update on publish: shasum -a 256 streamparse-mcp-1.0.0.tgz
-  sha256 "REPLACE_AFTER_NPM_PUBLISH"
+  sha256 "189180e8582cca5623b1eb8ae816ff930acbaedda1abfbb118fd40906cb90c47"
   license "MIT"
 
   depends_on "node"

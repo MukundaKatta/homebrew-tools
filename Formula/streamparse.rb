@@ -2,8 +2,7 @@ class Streamparse < Formula
   desc "Streaming JSON parser that yields partial valid trees as tokens arrive"
   homepage "https://github.com/MukundaKatta/streamparse"
   url "https://registry.npmjs.org/@mukundakatta/streamparse/-/streamparse-1.0.1.tgz"
-  # Update on publish: shasum -a 256 streamparse-1.0.1.tgz
-  sha256 "REPLACE_AFTER_NPM_PUBLISH"
+  sha256 "0e87bc7fbdcee6a8552fea8391af33f5cee2c58db65af19f71a770cca77b2996"
   license "MIT"
 
   depends_on "node"
