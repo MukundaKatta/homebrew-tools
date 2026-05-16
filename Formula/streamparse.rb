@@ -5,7 +5,9 @@ class Streamparse < Formula
   sha256 "0e87bc7fbdcee6a8552fea8391af33f5cee2c58db65af19f71a770cca77b2996"
   license "MIT"
 
+  depends_on "llvm"
   depends_on "node"
+  depends_on "z3"
 
   def install
     system "npm", "install", *std_npm_args
