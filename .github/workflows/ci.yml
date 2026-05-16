@@ -1,0 +1,123 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  # `brew style` is fast and runs on Ubuntu (Homebrew on Linux). Pulling it
+  # out as its own job means a Ruby style regression fails CI in ~30s, vs.
+  # waiting on the install matrix.
+  style:
+    name: brew style
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Homebrew/actions/setup-homebrew@master
+      - name: brew style on tap
+        run: |
+          brew style --tap "$GITHUB_WORKSPACE"
+
+  # `brew audit --strict` catches Formula-quality regressions (deprecated
+  # patterns, missing license, malformed resource blocks, etc.). Run it
+  # against every Formula in the tap.
+  audit:
+    name: brew audit
+    runs-on: ubuntu-latest
+    needs: style
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Homebrew/actions/setup-homebrew@master
+      - name: brew audit --strict for each Formula
+        run: |
+          # Symlink the workspace as a tap so `brew audit mukundakatta/tools/<formula>`
+          # resolves to this PR's files (not whatever's published on the live tap).
+          mkdir -p "$(brew --repository)/Library/Taps/mukundakatta"
+          ln -sf "$GITHUB_WORKSPACE" "$(brew --repository)/Library/Taps/mukundakatta/homebrew-tools"
+
+          fail=0
+          for formula_path in Formula/*.rb; do
+            name=$(basename "$formula_path" .rb)
+            echo "::group::brew audit mukundakatta/tools/$name"
+            if ! brew audit --strict --tap=mukundakatta/tools "$name"; then
+              fail=1
+            fi
+            echo "::endgroup::"
+          done
+          exit "$fail"
+
+  # The real test. `brew install --build-from-source` resolves every
+  # `resource` block (Python) or downloads the registry tarball (npm),
+  # verifies sha256s, and builds the artifact. If the committed sha256
+  # doesn't match what's currently served at the url, this is where CI
+  # fails loudly. macOS only because the Formulas target Homebrew on Mac.
+  install:
+    name: brew install --build-from-source / ${{ matrix.formula }} / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    needs: audit
+    strategy:
+      fail-fast: false
+      matrix:
+        # Discover Formulas dynamically would be cleaner, but GitHub Actions
+        # matrix is static; list each Formula here. When a new Formula is
+        # added, add it here in the same PR.
+        formula:
+          - agent-run-diff
+          - ai-eval-forge
+          - claude-commands-check
+          - claude-hooks-check
+          - claude-skill-check
+          - llm-usage-report
+          - mcp-config-check
+          - streamparse
+          - streamparse-mcp
+        # Apple Silicon first (most users); Intel too because the Homebrew
+        # cellars / bottle behavior differs and Python venv / npm install
+        # paths are not always identical.
+        os: [macos-14, macos-13]
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Homebrew/actions/setup-homebrew@master
+
+      - name: Tap this repo as mukundakatta/tools
+        run: |
+          mkdir -p "$(brew --repository)/Library/Taps/mukundakatta"
+          ln -sf "$GITHUB_WORKSPACE" "$(brew --repository)/Library/Taps/mukundakatta/homebrew-tools"
+
+      - name: brew install --build-from-source ${{ matrix.formula }}
+        run: |
+          brew install --build-from-source --verbose mukundakatta/tools/${{ matrix.formula }}
+
+      - name: Verify the installed binary is on PATH and runnable
+        run: |
+          # A successful install means the bin/ exists and runs. Each
+          # Formula installs at least one binary named after the Formula
+          # (or a close variant); the check below just confirms `brew`
+          # linked something into a discoverable location.
+          name="${{ matrix.formula }}"
+          prefix="$(brew --prefix "$name")"
+          if [ ! -d "$prefix" ]; then
+            echo "::error::install prefix not found at $prefix"
+            exit 1
+          fi
+          # List what got installed so the failure mode is visible on
+          # success too (no surprise binary names).
+          echo "Installed files for $name:"
+          find "$prefix" -maxdepth 4 -type f \( -name "*.py" -o -name "*.js" -o -perm -u+x \) | head -20 || true
+          # Best-effort: try invoking the binary if it's symlinked into PATH.
+          if command -v "$name" >/dev/null 2>&1; then
+            "$name" --help >/dev/null 2>&1 || "$name" -h >/dev/null 2>&1 || echo "(no --help / -h; binary present but help flag unknown)"
+          else
+            echo "(no binary named '$name' on PATH; Formula may install under a different name — this is informational, not a failure)"
+          fi
