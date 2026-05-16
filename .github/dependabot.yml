@@ -1,0 +1,12 @@
+version: 2
+updates:
+  # A Homebrew tap has no language-ecosystem deps to bump — Formula resources
+  # are pinned by sha256 and bumped manually when upstream packages release
+  # new versions (see CONTRIBUTING.md > "Bumping a formula"). The only thing
+  # Dependabot watches here is the GitHub Actions versions used by CI.
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: monthly
+    labels:
+      - ci
