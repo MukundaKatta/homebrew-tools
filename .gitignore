@@ -1,0 +1,19 @@
+# Homebrew taps don't have a build output, but sandbox / scratch noise
+# still ends up here from local `brew install --build-from-source` runs.
+
+.DS_Store
+*.log
+
+# editor
+.idea/
+.vscode/
+
+# OS junk
+Thumbs.db
+
+# Local scratch when working on a formula bump
+*.tgz
+*.tar.gz
+*.zip
+*.sha256
+.bump-scratch/

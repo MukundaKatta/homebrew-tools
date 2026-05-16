@@ -1,5 +1,8 @@
 # homebrew-tools
 
+[![CI](https://github.com/MukundaKatta/homebrew-tools/actions/workflows/ci.yml/badge.svg)](https://github.com/MukundaKatta/homebrew-tools/actions/workflows/ci.yml)
+[![Formulas](https://img.shields.io/badge/formulas-9-blue)](./Formula)
+
 A [Homebrew](https://brew.sh) tap with my CLI utilities. Right now it ships four linters for Claude Code and MCP configuration, packaged as self-contained Homebrew formulae so you don't need to manage a Python environment yourself.
 
 ## Tap it

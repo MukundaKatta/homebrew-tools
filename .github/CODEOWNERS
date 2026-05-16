@@ -1,0 +1,10 @@
+# Default owner for everything in this repo. Used by GitHub to auto-request
+# review on PRs and to define the contact point for security disclosures.
+* @MukundaKatta
+
+# Formula files. Every change here either (a) bumps the SHA256 of a
+# release tarball or (b) restructures the install recipe. Both deserve
+# extra scrutiny: a wrong sha256 means `brew install` will fail loudly,
+# but a sha256 mapped to the wrong release content is a supply-chain
+# concern.
+/Formula/  @MukundaKatta
