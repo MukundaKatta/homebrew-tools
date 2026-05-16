@@ -97,6 +97,16 @@ jobs:
           mkdir -p "$(brew --repository)/Library/Taps/mukundakatta"
           ln -sf "$GITHUB_WORKSPACE" "$(brew --repository)/Library/Taps/mukundakatta/homebrew-tools"
 
+      # Guard against the macos-14 Homebrew image shipping a broken `z3`
+      # bottle. Some Node-using Formulas trip "/opt/homebrew/opt/z3 not
+      # present or broken" during install. Reinstalling z3 (or installing
+      # it cleanly if absent) is the documented Homebrew workaround.
+      # No-op on macos-13 where z3 is already healthy.
+      - name: Defensive z3 reinstall (workaround for macos-14 runner)
+        if: matrix.os == 'macos-14'
+        run: |
+          brew reinstall z3 || brew install z3 || true
+
       - name: brew install --build-from-source ${{ matrix.formula }}
         run: |
           brew install --build-from-source --verbose mukundakatta/tools/${{ matrix.formula }}
