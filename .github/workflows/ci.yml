@@ -24,9 +24,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: Homebrew/actions/setup-homebrew@master
-      - name: brew style on tap
+      - name: brew style on Formulas
         run: |
-          brew style --tap "$GITHUB_WORKSPACE"
+          # `brew style --tap <path>` isn't a thing; pass Formula files
+          # directly so style runs on every .rb in this PR.
+          brew style Formula/*.rb
 
   # `brew audit --strict` catches Formula-quality regressions (deprecated
   # patterns, missing license, malformed resource blocks, etc.). Run it
