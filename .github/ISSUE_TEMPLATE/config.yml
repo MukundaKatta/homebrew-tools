@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🔴 sha256 mismatch / tap-pinning concern (security)
+    url: https://github.com/MukundaKatta/homebrew-tools/security/advisories/new
+    about: If you found a Formula whose committed sha256 doesn't match the file at its URL, or a commit retargeting a Formula at a non-upstream fork, use private vulnerability reporting instead of a public issue.
+  - name: General security policy
+    url: https://github.com/MukundaKatta/homebrew-tools/blob/main/SECURITY.md
+    about: Full threat-model scope and disclosure timeline for this tap.
+  - name: Upstream tool bug
+    url: https://github.com/MukundaKatta?tab=repositories
+    about: Bugs in a packaged tool itself (the linter logic, llm-usage-report parsing, streamparse semantics, etc.) belong on that tool's upstream repo. This tap only packages them; the homepage line on each Formula points at the right repo.
+  - name: Homebrew core / brew CLI bug
+    url: https://github.com/Homebrew/brew/issues
+    about: Issues with `brew` itself go upstream.
