@@ -6,6 +6,7 @@ class StreamparseMcp < Formula
   license "MIT"
 
   depends_on "node"
+  depends_on "z3"
 
   def install
     system "npm", "install", *std_npm_args
