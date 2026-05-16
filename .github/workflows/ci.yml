@@ -64,7 +64,7 @@ jobs:
   # doesn't match what's currently served at the url, this is where CI
   # fails loudly. macOS only because the Formulas target Homebrew on Mac.
   install:
-    name: brew install --build-from-source / ${{ matrix.formula }} / ${{ matrix.os }}
+    name: brew install / ${{ matrix.formula }} / ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     needs: audit
     strategy:
@@ -97,19 +97,18 @@ jobs:
           mkdir -p "$(brew --repository)/Library/Taps/mukundakatta"
           ln -sf "$GITHUB_WORKSPACE" "$(brew --repository)/Library/Taps/mukundakatta/homebrew-tools"
 
-      # Guard against the macos-14 Homebrew image shipping a broken `z3`
-      # bottle. Some Node-using Formulas trip "/opt/homebrew/opt/z3 not
-      # present or broken" during install. Reinstalling z3 (or installing
-      # it cleanly if absent) is the documented Homebrew workaround.
-      # No-op on macos-13 where z3 is already healthy.
-      - name: Defensive z3 reinstall (workaround for macos-14 runner)
-        if: matrix.os == 'macos-14'
+      - name: brew install ${{ matrix.formula }}
         run: |
-          brew reinstall z3 || brew install z3 || true
-
-      - name: brew install --build-from-source ${{ matrix.formula }}
-        run: |
-          brew install --build-from-source --verbose mukundakatta/tools/${{ matrix.formula }}
+          # Note: we install without `--build-from-source`. This Tap has
+          # no pre-built bottles for its own Formulas, so brew falls
+          # through to source-build them anyway — which is what tests the
+          # Formula's install method. But the Formulas' *dependencies*
+          # (node, python@3.12, python@3.13) come from Homebrew's bottle
+          # cache instead of being source-built. That matters because the
+          # macos-14 runner image periodically ships with broken deps in
+          # the source-build chain (z3, llvm, etc.) that brick Node
+          # source builds; bottles sidestep all of that.
+          brew install --verbose mukundakatta/tools/${{ matrix.formula }}
 
       - name: Verify the installed binary is on PATH and runnable
         run: |
